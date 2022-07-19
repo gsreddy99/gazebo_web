@@ -2,6 +2,8 @@ import os
 import datetime
 import hashlib
 from flask import Flask, session, url_for, redirect, render_template, request, abort, flash
+import itsdangerous as it
+import markupsafe as mk
 
 import rospy
 from geometry_msgs.msg import Twist
@@ -20,7 +22,7 @@ BURGER_MAX_ANG_VEL = 2.84
 WAFFLE_MAX_LIN_VEL = 0.26
 WAFFLE_MAX_ANG_VEL = 1.82
 
-LIN_VEL_STEP_SIZE = 0.1
+LIN_VEL_STEP_SIZE = 0.03
 ANG_VEL_STEP_SIZE = 0.1
 
 
@@ -88,7 +90,7 @@ def keyUp():
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-    LIN_VEL_STEP_SIZE = 0.1
+    LIN_VEL_STEP_SIZE = 0.03
     ANG_VEL_STEP_SIZE = 0.2
     status=0
 
@@ -114,7 +116,7 @@ def keyDown():
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-    LIN_VEL_STEP_SIZE = 0.1
+    LIN_VEL_STEP_SIZE = 0.03
     ANG_VEL_STEP_SIZE = 0.1
     status=0
     target_linear_vel = checkLinearLimitVelocity(target_linear_vel - LIN_VEL_STEP_SIZE)
@@ -138,7 +140,7 @@ def keyLeft():
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-    LIN_VEL_STEP_SIZE = 0.1
+    LIN_VEL_STEP_SIZE = 0.03
     ANG_VEL_STEP_SIZE = 0.1
     status=0
     target_angular_vel = checkAngularLimitVelocity(target_angular_vel + ANG_VEL_STEP_SIZE)
@@ -162,7 +164,7 @@ def keyRight():
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-    LIN_VEL_STEP_SIZE = 0.1
+    LIN_VEL_STEP_SIZE = 0.03
     ANG_VEL_STEP_SIZE = 0.1
     status=0
     target_angular_vel = checkAngularLimitVelocity(target_angular_vel - ANG_VEL_STEP_SIZE)
@@ -203,4 +205,6 @@ def homePage():
     return render_template("index.html")
 
 if __name__ == "__main__":
+    print('ItsDangerous version',it.__version__)
+    print('Markup Version',mk.__version__)
     app.run(host="localhost", port=9000, debug=True)
