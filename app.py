@@ -23,6 +23,19 @@ WAFFLE_MAX_ANG_VEL = 1.82
 LIN_VEL_STEP_SIZE = 0.01
 ANG_VEL_STEP_SIZE = 0.1
 
+
+rospy.init_node('turtlebot3_web')
+pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
+
+turtlebot3_model = rospy.get_param("model", "burger")
+
+status = 0
+target_linear_vel   = 0.0
+target_angular_vel  = 0.0
+control_linear_vel  = 0.0
+control_angular_vel = 0.0
+
+
 def constrain(input, low, high):
     if input < low:
       input = low
@@ -52,11 +65,31 @@ def checkAngularLimitVelocity(vel):
       vel = constrain(vel, -BURGER_MAX_ANG_VEL, BURGER_MAX_ANG_VEL)
 
     return vel
+    
+
+def makeSimpleProfile(output, input, slop):
+    if input > output:
+        output = min( input, output + slop )
+    elif input < output:
+        output = max( input, output - slop )
+    else:
+        output = input
+
+    return output    
 
 
 @app.route("/up", methods = ["POST"])
 def keyUp():
     print("Up Key Stroke")
+    
+    target_linear_vel   = 0.0
+    target_angular_vel  = 0.0
+    control_linear_vel  = 0.0
+    control_angular_vel = 0.0
+
+    LIN_VEL_STEP_SIZE = 0.01
+    ANG_VEL_STEP_SIZE = 0.1
+    status=0
 
     target_linear_vel = checkLinearLimitVelocity(target_linear_vel + LIN_VEL_STEP_SIZE)
     status = status + 1
@@ -95,15 +128,5 @@ def homePage():
 
 if __name__ == "__main__":
 
-    rospy.init_node('turtlebot3_teleop')
-    pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
 
-    turtlebot3_model = rospy.get_param("model", "burger")
-
-    status = 0
-    target_linear_vel   = 0.0
-    target_angular_vel  = 0.0
-    control_linear_vel  = 0.0
-    control_angular_vel = 0.0
-
-    app.run(host="localhost", port=8000, debug=True)
+    app.run(host="localhost", port=9000, debug=True)
