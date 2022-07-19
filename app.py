@@ -30,6 +30,7 @@ pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
 turtlebot3_model = rospy.get_param("model", "burger")
 
 status = 0
+
 target_linear_vel   = 0.0
 target_angular_vel  = 0.0
 control_linear_vel  = 0.0
@@ -66,6 +67,8 @@ def checkAngularLimitVelocity(vel):
 
     return vel
     
+def vels(target_linear_vel, target_angular_vel):
+    return "currently:\tlinear vel %s\t angular vel %s " % (target_linear_vel,target_angular_vel)    
 
 def makeSimpleProfile(output, input, slop):
     if input > output:
@@ -87,11 +90,12 @@ def keyUp():
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
 
-    LIN_VEL_STEP_SIZE = 0.01
-    ANG_VEL_STEP_SIZE = 0.1
+    LIN_VEL_STEP_SIZE = 0.1
+    ANG_VEL_STEP_SIZE = 0.2
     status=0
 
     target_linear_vel = checkLinearLimitVelocity(target_linear_vel + LIN_VEL_STEP_SIZE)
+    print("@@@@@@@@@@@@@@@@@ Up Before %s"%vels(target_linear_vel,target_angular_vel))
     status = status + 1
 
     twist = Twist()
@@ -103,17 +107,45 @@ def keyUp():
     twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = control_angular_vel
 
     pub.publish(twist)
+    print("@@@@@@@@@@@@@@@@@ Up After %s"%vels(target_linear_vel,target_angular_vel))
 
     return "200"
 
 
-@app.route("/right", methods = ["POST"])
-def keyRight():
-    print("Right Key Stroke")
-    return "200"
+
 
 @app.route("/down", methods = ["POST"])
 def keyDown():
+    print("Down Key Stroke")
+    
+    target_linear_vel   = 0.0
+    target_angular_vel  = 0.0
+    control_linear_vel  = 0.0
+    control_angular_vel = 0.0
+
+    LIN_VEL_STEP_SIZE = 0.01
+    ANG_VEL_STEP_SIZE = 0.1
+    status=0
+
+    target_linear_vel = checkLinearLimitVelocity(target_linear_vel - LIN_VEL_STEP_SIZE)
+    print("@@@@@@@@@@@@@@@@@ Down Before %s"%vels(target_linear_vel,target_angular_vel))
+    status = status + 1
+
+    twist = Twist()
+
+    control_linear_vel = makeSimpleProfile(control_linear_vel, target_linear_vel, (LIN_VEL_STEP_SIZE/2.0))
+    twist.linear.x = control_linear_vel; twist.linear.y = 0.0; twist.linear.z = 0.0
+
+    control_angular_vel = makeSimpleProfile(control_angular_vel, target_angular_vel, (ANG_VEL_STEP_SIZE/2.0))
+    twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = control_angular_vel
+
+    pub.publish(twist)
+    print("@@@@@@@@@@@@@@@@@ Down After %s"%vels(target_linear_vel,target_angular_vel))
+
+    return "200"
+
+@app.route("/right", methods = ["POST"])
+def keyRight():
     print("Down Key Stroke")
     return "200"
 
