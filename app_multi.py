@@ -27,7 +27,7 @@ ANG_VEL_STEP_SIZE = 0.1
 
 
 rospy.init_node('turtlebot3_web')
-pub = rospy.Publisher('tb3_2/cmd_vel', Twist, queue_size=10)
+pub = rospy.Publisher('/tb3_2/cmd_vel', Twist, queue_size=10)
 
 turtlebot3_model = rospy.get_param("model", "burger")
 
@@ -46,6 +46,7 @@ def constrain(input, low, high):
       input = high
     else:
       input = input
+
 
     return input
 
@@ -90,12 +91,12 @@ def keyUp():
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-    LIN_VEL_STEP_SIZE = 0.03
-    ANG_VEL_STEP_SIZE = 0.2
+    LIN_VEL_STEP_SIZE = 0.06
+    ANG_VEL_STEP_SIZE = 0.4
     status=0
 
     target_linear_vel = checkLinearLimitVelocity(target_linear_vel + LIN_VEL_STEP_SIZE)
-    print("@@@@@@@@@@@@@@@@@ Up Before %s"%vels(target_linear_vel,target_angular_vel))
+    print("############### Up Before %s"%vels(target_linear_vel,target_angular_vel))
     status = status + 1
     twist = Twist()
 
@@ -104,7 +105,7 @@ def keyUp():
     control_angular_vel = makeSimpleProfile(control_angular_vel, target_angular_vel, (ANG_VEL_STEP_SIZE/2.0))
     twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = control_angular_vel
     pub.publish(twist)
-    print("@@@@@@@@@@@@@@@@@ Up After %s"%vels(target_linear_vel,target_angular_vel))
+    print("############### Up After %s"%vels(target_linear_vel,target_angular_vel))
     return "200"
 
 
@@ -116,11 +117,11 @@ def keyDown():
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-    LIN_VEL_STEP_SIZE = 0.03
-    ANG_VEL_STEP_SIZE = 0.1
+    LIN_VEL_STEP_SIZE = 0.06
+    ANG_VEL_STEP_SIZE = 0.4
     status=0
     target_linear_vel = checkLinearLimitVelocity(target_linear_vel - LIN_VEL_STEP_SIZE)
-    print("@@@@@@@@@@@@@@@@@ Down Before %s"%vels(target_linear_vel,target_angular_vel))
+    print("############### Down Before %s"%vels(target_linear_vel,target_angular_vel))
     status = status + 1
 
     twist = Twist()
@@ -130,7 +131,7 @@ def keyDown():
     control_angular_vel = makeSimpleProfile(control_angular_vel, target_angular_vel, (ANG_VEL_STEP_SIZE/2.0))
     twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = control_angular_vel
     pub.publish(twist)
-    print("@@@@@@@@@@@@@@@@@ Down After %s"%vels(target_linear_vel,target_angular_vel))
+    print("############### Down After %s"%vels(target_linear_vel,target_angular_vel))
     return "200"
 
 @app.route("/left", methods = ["POST"])
@@ -140,11 +141,11 @@ def keyLeft():
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-    LIN_VEL_STEP_SIZE = 0.03
-    ANG_VEL_STEP_SIZE = 0.1
+    LIN_VEL_STEP_SIZE = 0.05
+    ANG_VEL_STEP_SIZE = 0.3
     status=0
     target_angular_vel = checkAngularLimitVelocity(target_angular_vel + ANG_VEL_STEP_SIZE)
-    print("@@@@@@@@@@@@@@@@@ Left Before %s"%vels(target_linear_vel,target_angular_vel))
+    print("############### Left Before %s"%vels(target_linear_vel,target_angular_vel))
     status = status + 1
 
     twist = Twist()
@@ -164,11 +165,11 @@ def keyRight():
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-    LIN_VEL_STEP_SIZE = 0.03
-    ANG_VEL_STEP_SIZE = 0.1
+    LIN_VEL_STEP_SIZE = 0.05
+    ANG_VEL_STEP_SIZE = 0.3
     status=0
     target_angular_vel = checkAngularLimitVelocity(target_angular_vel - ANG_VEL_STEP_SIZE)
-    print("@@@@@@@@@@@@@@@@@ Right Before %s"%vels(target_linear_vel,target_angular_vel))
+    print(" ############### Right Before %s"%vels(target_linear_vel,target_angular_vel))
     status = status + 1
     twist = Twist()
 
@@ -179,7 +180,7 @@ def keyRight():
     twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = control_angular_vel
 
     pub.publish(twist)
-    print("@@@@@@@@@@@@@@@@@ Right After %s"%vels(target_linear_vel,target_angular_vel))
+    print("############### Right After %s"%vels(target_linear_vel,target_angular_vel))
     return "200"
 
 @app.route("/reset", methods = ["POST"])
@@ -191,13 +192,13 @@ def keyReset():
     target_angular_vel  = 0.0
     control_angular_vel = 0.0
 
-    print("@@@@@@@@@@@@@@@@@ Reset Before %s"%vels(target_linear_vel,target_angular_vel))
+    print("############### Reset Before %s"%vels(target_linear_vel,target_angular_vel))
 
     twist = Twist()
     twist.linear.x = 0.0; twist.linear.y = 0.0; twist.linear.z = 0.0
     twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = 0.0
     pub.publish(twist)
-    print("@@@@@@@@@@@@@@@@@ Reset After %s"%vels(target_linear_vel,target_angular_vel))
+    print("############### Reset After %s"%vels(target_linear_vel,target_angular_vel))
     return "200"
 
 @app.route("/")
