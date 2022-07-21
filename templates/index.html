@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block page_title %}Robot Controls{% endblock %}
+{% block body %}
+    {{ super() }}
+
+<div class = "container">
+
+    <div class="row" style="height:5%; width:100%">&nbsp;</div>
+
+    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+
+    <div class="row">
+        <div class="col-lg-2"> </div>
+        <div class="col-lg-2">
+            <form class="form-inline" action="/up" method='post' target="dummyframe">
+                <button type="submit" class="btn"><h1>&uarr;</h1></button>
+            </form>
+        </div>
+        <div class="col-lg-2"> </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-1"> </div>
+        <div class="col-lg-1" >
+            <form class="form-inline" action="/left" method='post' target="dummyframe">
+                <button type="submit" class="btn"><h1>&#8592;</h1></button>
+            </form>
+        </div>
+        <div class="col-lg-1"> </div>
+        <div class="col-lg-1" style="margin:0 auto;">
+            <form class="form-inline" action="/right" method='post' target="dummyframe">
+                <button type="submit" class="btn"><h1>&rarr;</h1></button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+    <div class="row">
+        <div class="col-lg-2"> </div>
+        <div class="col-lg-2">
+            <form class="form-inline" action="/down" method='post' target="dummyframe">
+                <button type="submit" class="btn"><h1>&#8595;</h1></button>
+            </form>
+        </div>
+        <div class="col-lg-2"> </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,44 @@
+
+<html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.united.css') }}">
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+<title>Turtbot3 Web Controller</title>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Turtbot3 Web Controller</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav navbar-right">
+            <!-- <a class="navbar-brand" href="/">Authors: Lakshmi, Srinivas, Peter and Julieanna</a> -->
+        </ul>
+        </div>
+    </div>
+    </nav>
+
+<div class="container">
+  
+  <h1>{% block page_title %}{% endblock %}</h1>
+  
+  <p>{% block body %}{% endblock %}</p>
+
+</div>
+
+
+<div class='container'>
+<hr>
+Developed by Lakshmi, Srinivas, Julieanna and Peter
+
+</div>
+
+
+</html>
