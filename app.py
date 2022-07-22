@@ -20,7 +20,7 @@ BURGER_MAX_ANG_VEL = 2.84
 WAFFLE_MAX_LIN_VEL = 0.26
 WAFFLE_MAX_ANG_VEL = 1.82
 
-LIN_VEL_STEP_SIZE = 0.01
+LIN_VEL_STEP_SIZE = 0.1
 ANG_VEL_STEP_SIZE = 0.1
 
 
@@ -66,9 +66,9 @@ def checkAngularLimitVelocity(vel):
       vel = constrain(vel, -BURGER_MAX_ANG_VEL, BURGER_MAX_ANG_VEL)
 
     return vel
-    
+
 def vels(target_linear_vel, target_angular_vel):
-    return "currently:\tlinear vel %s\t angular vel %s " % (target_linear_vel,target_angular_vel)    
+    return "currently:\tlinear vel %s\t angular vel %s " % (target_linear_vel,target_angular_vel)
 
 def makeSimpleProfile(output, input, slop):
     if input > output:
@@ -78,18 +78,16 @@ def makeSimpleProfile(output, input, slop):
     else:
         output = input
 
-    return output    
+    return output
 
 
 @app.route("/up", methods = ["POST"])
 def keyUp():
-    print("Up Key Stroke")
-    
+    print("Clicked on Up Button")
     target_linear_vel   = 0.0
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-
     LIN_VEL_STEP_SIZE = 0.1
     ANG_VEL_STEP_SIZE = 0.2
     status=0
@@ -97,41 +95,80 @@ def keyUp():
     target_linear_vel = checkLinearLimitVelocity(target_linear_vel + LIN_VEL_STEP_SIZE)
     print("@@@@@@@@@@@@@@@@@ Up Before %s"%vels(target_linear_vel,target_angular_vel))
     status = status + 1
-
     twist = Twist()
 
     control_linear_vel = makeSimpleProfile(control_linear_vel, target_linear_vel, (LIN_VEL_STEP_SIZE/2.0))
     twist.linear.x = control_linear_vel; twist.linear.y = 0.0; twist.linear.z = 0.0
-
     control_angular_vel = makeSimpleProfile(control_angular_vel, target_angular_vel, (ANG_VEL_STEP_SIZE/2.0))
     twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = control_angular_vel
-
     pub.publish(twist)
     print("@@@@@@@@@@@@@@@@@ Up After %s"%vels(target_linear_vel,target_angular_vel))
-
     return "200"
-
-
 
 
 @app.route("/down", methods = ["POST"])
 def keyDown():
-    print("Down Key Stroke")
-    
+    print("Clicked on Down Button")
+
     target_linear_vel   = 0.0
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-
-    LIN_VEL_STEP_SIZE = 0.01
+    LIN_VEL_STEP_SIZE = 0.1
     ANG_VEL_STEP_SIZE = 0.1
     status=0
-
     target_linear_vel = checkLinearLimitVelocity(target_linear_vel - LIN_VEL_STEP_SIZE)
     print("@@@@@@@@@@@@@@@@@ Down Before %s"%vels(target_linear_vel,target_angular_vel))
     status = status + 1
 
     twist = Twist()
+    control_linear_vel = makeSimpleProfile(control_linear_vel, target_linear_vel, (LIN_VEL_STEP_SIZE/2.0))
+    twist.linear.x = control_linear_vel; twist.linear.y = 0.0; twist.linear.z = 0.0
+
+    control_angular_vel = makeSimpleProfile(control_angular_vel, target_angular_vel, (ANG_VEL_STEP_SIZE/2.0))
+    twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = control_angular_vel
+    pub.publish(twist)
+    print("@@@@@@@@@@@@@@@@@ Down After %s"%vels(target_linear_vel,target_angular_vel))
+    return "200"
+
+@app.route("/left", methods = ["POST"])
+def keyLeft():
+    print("Clicked on Left Button")
+    target_linear_vel   = 0.0
+    target_angular_vel  = 0.0
+    control_linear_vel  = 0.0
+    control_angular_vel = 0.0
+    LIN_VEL_STEP_SIZE = 0.1
+    ANG_VEL_STEP_SIZE = 0.1
+    status=0
+    target_angular_vel = checkAngularLimitVelocity(target_angular_vel + ANG_VEL_STEP_SIZE)
+    print("@@@@@@@@@@@@@@@@@ Left Before %s"%vels(target_linear_vel,target_angular_vel))
+    status = status + 1
+
+    twist = Twist()
+    control_linear_vel = makeSimpleProfile(control_linear_vel, target_linear_vel, (LIN_VEL_STEP_SIZE/2.0))
+    twist.linear.x = control_linear_vel; twist.linear.y = 0.0; twist.linear.z = 0.0
+    control_angular_vel = makeSimpleProfile(control_angular_vel, target_angular_vel, (ANG_VEL_STEP_SIZE/2.0))
+    twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = control_angular_vel
+    pub.publish(twist)
+    print("@@@@@@@@@@@@@@@@@ Left After %s"%vels(target_linear_vel,target_angular_vel))
+    return "200"
+
+@app.route("/right", methods = ["POST"])
+def keyRight():
+    print("Clicked on Right Button")
+
+    target_linear_vel   = 0.0
+    target_angular_vel  = 0.0
+    control_linear_vel  = 0.0
+    control_angular_vel = 0.0
+    LIN_VEL_STEP_SIZE = 0.1
+    ANG_VEL_STEP_SIZE = 0.1
+    status=0
+    target_angular_vel = checkAngularLimitVelocity(target_angular_vel - ANG_VEL_STEP_SIZE)
+    print("@@@@@@@@@@@@@@@@@ Right Before %s"%vels(target_linear_vel,target_angular_vel))
+    status = status + 1
+    twist = Twist()
 
     control_linear_vel = makeSimpleProfile(control_linear_vel, target_linear_vel, (LIN_VEL_STEP_SIZE/2.0))
     twist.linear.x = control_linear_vel; twist.linear.y = 0.0; twist.linear.z = 0.0
@@ -140,18 +177,25 @@ def keyDown():
     twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = control_angular_vel
 
     pub.publish(twist)
-    print("@@@@@@@@@@@@@@@@@ Down After %s"%vels(target_linear_vel,target_angular_vel))
-
+    print("@@@@@@@@@@@@@@@@@ Right After %s"%vels(target_linear_vel,target_angular_vel))
     return "200"
 
-@app.route("/right", methods = ["POST"])
-def keyRight():
-    print("Down Key Stroke")
-    return "200"
+@app.route("/reset", methods = ["POST"])
+def keyReset():
+    print("Clicked on Reset Button")
 
-@app.route("/left", methods = ["POST"])
-def keyLeft():
-    print("Left Key Stroke")
+    target_linear_vel   = 0.0
+    control_linear_vel  = 0.0
+    target_angular_vel  = 0.0
+    control_angular_vel = 0.0
+
+    print("@@@@@@@@@@@@@@@@@ Reset Before %s"%vels(target_linear_vel,target_angular_vel))
+
+    twist = Twist()
+    twist.linear.x = 0.0; twist.linear.y = 0.0; twist.linear.z = 0.0
+    twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = 0.0
+    pub.publish(twist)
+    print("@@@@@@@@@@@@@@@@@ Reset After %s"%vels(target_linear_vel,target_angular_vel))
     return "200"
 
 @app.route("/")
@@ -159,6 +203,4 @@ def homePage():
     return render_template("index.html")
 
 if __name__ == "__main__":
-
-
     app.run(host="localhost", port=9000, debug=True)

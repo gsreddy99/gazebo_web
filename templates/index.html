@@ -1,51 +1,50 @@
 {% extends "layout.html" %}
-{% block page_title %}Robot Controls{% endblock %}
 {% block body %}
     {{ super() }}
 
-<div class = "container">
-
-    <div class="row" style="height:5%; width:100%">&nbsp;</div>
-
-    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-
-    <div class="row">
-        <div class="col-lg-2"> </div>
-        <div class="col-lg-2">
+<div class="container container-table">
+    <div class="row vertical-center-row">
+        <div class="text-center col-md-4 col-md-offset-4" >
+            <h2>Robot Controls</h2>
+        </div>
+    </div>
+    <div class="row vertical-center-row">
+        <div class="text-center col-md-4 col-md-offset-4" >
             <form class="form-inline" action="/up" method='post' target="dummyframe">
-                <button type="submit" class="btn"><h1>&uarr;</h1></button>
+                <button type="submit" class="button"><h1>&uarr;</h1></button>
             </form>
         </div>
-        <div class="col-lg-2"> </div>
     </div>
-    <div class="row">
-        <div class="col-lg-1"> </div>
-        <div class="col-lg-1" >
+    <div class="row vertical-center-row">
+        <div class="text-center col-md-4 col-md-offset-4" >
             <form class="form-inline" action="/left" method='post' target="dummyframe">
-                <button type="submit" class="btn"><h1>&#8592;</h1></button>
+                <button type="submit" class="button"><h1>&#8592;</h1></button>
             </form>
         </div>
-        <div class="col-lg-1"> </div>
-        <div class="col-lg-1" style="margin:0 auto;">
+    </div>
+    <div class="row vertical-center-row">
+        <div class="text-center col-md-4 col-md-offset-4" >
             <form class="form-inline" action="/right" method='post' target="dummyframe">
-                <button type="submit" class="btn"><h1>&rarr;</h1></button>
+                <button type="submit" class="button"><h1>&rarr;</h1></button>
             </form>
         </div>
     </div>
-    <div class="row">
-
-    </div>
-    <div class="row">
-        <div class="col-lg-2"> </div>
-        <div class="col-lg-2">
+    <div class="row vertical-center-row">
+        <div class="text-center col-md-4 col-md-offset-4" >
             <form class="form-inline" action="/down" method='post' target="dummyframe">
-                <button type="submit" class="btn"><h1>&#8595;</h1></button>
+                <button type="submit" class="button"><h1>&#8595;</h1></button>
             </form>
         </div>
-        <div class="col-lg-2"> </div>
     </div>
-
+    <div class="row vertical-center-row">
+        <div class="text-center col-md-4 col-md-offset-4" >
+            <div class="text-center col-md-4 col-md-offset-4" >
+                <form class="form-inline" action="/reset" method='post' target="dummyframe">
+                    <button type="submit" class="button_reset">Reset</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 {% endblock %}
