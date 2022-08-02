@@ -18,3 +18,9 @@
 - git remote add origin https://github.com/gsreddy99/gazebo_web.git
 
 - git push --set-upstream origin main
+
+## Launch the application 
+
+- launch the application using localhost:9000
+
+- Use the appropriate buttons to move the Robot forward, backward, anti-clockwise and clockwise.
