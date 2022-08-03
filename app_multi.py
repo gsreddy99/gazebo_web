@@ -98,8 +98,8 @@ def keyUp():
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-    LIN_VEL_STEP_SIZE = 0.03
-    ANG_VEL_STEP_SIZE = 0.2
+    LIN_VEL_STEP_SIZE = 0.07
+    ANG_VEL_STEP_SIZE = 0.1
     status=0
 
     target_linear_vel = checkLinearLimitVelocity(target_linear_vel + LIN_VEL_STEP_SIZE)
@@ -124,7 +124,7 @@ def keyDown():
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-    LIN_VEL_STEP_SIZE = 0.03
+    LIN_VEL_STEP_SIZE = 0.07
     ANG_VEL_STEP_SIZE = 0.1
     status=0
     target_linear_vel = checkLinearLimitVelocity(target_linear_vel - LIN_VEL_STEP_SIZE)
@@ -151,8 +151,8 @@ def keyLeft():
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-    LIN_VEL_STEP_SIZE = 0.03
-    ANG_VEL_STEP_SIZE = 0.1
+    LIN_VEL_STEP_SIZE = 0.1
+    ANG_VEL_STEP_SIZE = 0.2
     status=0
     target_angular_vel = checkAngularLimitVelocity(target_angular_vel + ANG_VEL_STEP_SIZE)
     print("Move the Robot anti clockwise %s"%vels(target_linear_vel,target_angular_vel))
@@ -177,7 +177,7 @@ def keyRight():
     target_angular_vel  = 0.0
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
-    LIN_VEL_STEP_SIZE = 0.03
+    LIN_VEL_STEP_SIZE = 0.1
     ANG_VEL_STEP_SIZE = 0.1
     status=0
     target_angular_vel = checkAngularLimitVelocity(target_angular_vel - ANG_VEL_STEP_SIZE)
