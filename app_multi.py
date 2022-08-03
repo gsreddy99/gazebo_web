@@ -152,7 +152,7 @@ def keyLeft():
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
     LIN_VEL_STEP_SIZE = 0.1
-    ANG_VEL_STEP_SIZE = 0.2
+    ANG_VEL_STEP_SIZE = 0.3
     status=0
     target_angular_vel = checkAngularLimitVelocity(target_angular_vel + ANG_VEL_STEP_SIZE)
     print("Move the Robot anti clockwise %s"%vels(target_linear_vel,target_angular_vel))
@@ -178,7 +178,7 @@ def keyRight():
     control_linear_vel  = 0.0
     control_angular_vel = 0.0
     LIN_VEL_STEP_SIZE = 0.1
-    ANG_VEL_STEP_SIZE = 0.1
+    ANG_VEL_STEP_SIZE = 0.3
     status=0
     target_angular_vel = checkAngularLimitVelocity(target_angular_vel - ANG_VEL_STEP_SIZE)
     print("Moving the Robot clockwise %s"%vels(target_linear_vel,target_angular_vel))
@@ -206,7 +206,7 @@ def keyReset():
     target_angular_vel  = 0.0
     control_angular_vel = 0.0
 
-    print("Move the Robot to its base location %s"%vels(target_linear_vel,target_angular_vel))
+    print("Stop the robot from moving %s"%vels(target_linear_vel,target_angular_vel))
 
     twist = Twist()
     twist.linear.x = 0.0; twist.linear.y = 0.0; twist.linear.z = 0.0
